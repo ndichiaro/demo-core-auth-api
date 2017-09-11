@@ -1,11 +1,12 @@
 using Demo.Data.Mongo.Models;
+using Demo.Model;
 
-namespace Demo.Data.Mongo.Collecations
+namespace Demo.Data.Mongo.Collections
 {
     public class UserCollection : MongoDbCollection<User>
     {
-        protected UserCollection(string name, string connectionString) 
-            : base(name, connectionString)
+        public UserCollection(string connectionString) 
+            : base("User", connectionString: connectionString)
         {
         }
     }

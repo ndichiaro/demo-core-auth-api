@@ -24,9 +24,10 @@ namespace Demo.Data.Mongo
             return Collection.AsQueryable();
         }
 
-        public virtual void Add(TEntityType entity)
+        public virtual TEntityType Add(TEntityType entity)
         {
-            Collection.InsertOne(entity);    
+            Collection.InsertOne(entity);
+            return entity;    
         }
 
         public virtual IEnumerable<TEntityType> Find(Expression<Func<TEntityType, bool>> expression)

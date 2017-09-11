@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.Api.Settings;
+using Demo.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,7 @@ namespace Demo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<TokenSettings>(Configuration.GetSection("Tokens"));
+
             services.AddAuthentication()
                     .AddJwtBearer(cfg =>
                     {
@@ -40,6 +42,8 @@ namespace Demo.Api
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
                         };
                     });
+
+            services.AddScoped<IUserManager>(s => new UserManager(Configuration.GetConnectionString("DemoDatabase")));        
             services.AddMvc();
         }
 

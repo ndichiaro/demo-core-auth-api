@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Demo.Data.Mongo\Demo.Data.Mongo.csproj" />
+    <ProjectReference Include="..\Demo.Model\Demo.Model.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

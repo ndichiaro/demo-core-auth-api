@@ -1,15 +1,16 @@
 using System;
+using Demo.Model;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Demo.Data.Mongo.Models
 {
-    public class User
+    public class User : IUser
     {
         [BsonId]
-        [BsonElement("_id")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
 
         [BsonElement("firstName")]
         [BsonRepresentation(BsonType.String)]
@@ -32,7 +33,7 @@ namespace Demo.Data.Mongo.Models
         public string Password { get; set; }
 
         [BsonElement("created")]
-        [BsonRepresentation(BsonType.Boolean)]
+        [BsonRepresentation(BsonType.DateTime)]
         [BsonRequired]
         public DateTime Created { get; set; }
     }

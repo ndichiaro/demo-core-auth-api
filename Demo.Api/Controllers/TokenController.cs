@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Demo.Api.Models;
+using Demo.Authentication;
 
 namespace Demo.Api.Controllers
 {
@@ -16,27 +17,29 @@ namespace Demo.Api.Controllers
     public class TokenController : Controller
     {
         private readonly IOptions<TokenSettings> _tokenSettings;
+        private IUserManager _userManager;
 
-        public TokenController(IOptions<TokenSettings> tokenSettings)
+        public TokenController(IOptions<TokenSettings> tokenSettings, IUserManager userManager)
         {
             _tokenSettings = tokenSettings;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Post(LoginViewModel model)
+        public IActionResult Post(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = model.Email == "ndichiaro@gmail.com";
-                
-                if (result)
+                var result = _userManager.AuthenticateUser(model.Email, model.Password);
+                if (result != null)
                 {
             
                     var claims = new[]
                     {
-                    new Claim(JwtRegisteredClaimNames.Sub, model.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(ClaimTypes.Name, model.Email),
+                        new Claim(JwtRegisteredClaimNames.Sub, model.Email),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
             
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.Value.Key));
@@ -50,7 +53,6 @@ namespace Demo.Api.Controllers
             
                     return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
                 }
-                
             }
             return BadRequest("Could not create token");
         }

@@ -5,5 +5,6 @@ namespace Demo.Authentication
     public interface IUserManager
     {
         IUser CreateUser(string firstname, string lastname, string email, string password);
+        IUser AuthenticateUser(string email, string password);
     }
 }

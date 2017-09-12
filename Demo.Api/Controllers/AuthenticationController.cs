@@ -16,11 +16,12 @@ namespace Demo.Api.Controllers
             _userManager = userManager;
 
         }
+        
         [HttpPost]
         public IActionResult Post([FromBody] RegistrationViewModel model)
         {
             var result = _userManager?.CreateUser(model.FirstName, model.LastName, model.Email, model.Password);
-            return Ok(result);
+            return Ok(new{ FirstName = result.FirstName, LastName = result.LastName, Email = result.Email});
         }
     }
 }

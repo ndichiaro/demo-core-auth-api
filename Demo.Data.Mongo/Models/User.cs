@@ -1,12 +1,11 @@
 using System;
-using Demo.Model;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Demo.Data.Mongo.Models
 {
-    public class User : IUser
+    public class User
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

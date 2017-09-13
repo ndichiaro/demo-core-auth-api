@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Demo.Data.Mongo.Collections;
 using Demo.Data.Mongo.Models;
-using Demo.Model;
+using Domain = Demo.Model;
 using Demo.Authentication.Security;
 
 namespace Demo.Authentication
@@ -16,7 +16,7 @@ namespace Demo.Authentication
             _userCollection = new UserCollection(connectionString);
         }
 
-        public IUser CreateUser(string firstname, string lastname, string email, string password)
+        public Domain.User CreateUser(string firstname, string lastname, string email, string password)
         {
             var hash = SaltEncryption.Hash(password);
             var user = new User
@@ -27,13 +27,32 @@ namespace Demo.Authentication
                 Password = hash,
                 Created = DateTime.Now
             };
-            return _userCollection.Add(user);
+            var result = _userCollection.Add(user);
+            
+            return new Domain.User
+            {
+                Id = result.Id,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Email = result.Email,
+                Created = DateTime.Now
+            };
         }
 
-        public IUser AuthenticateUser(string email, string password)
+        public Domain.User AuthenticateUser(string email, string password)
         {
-            var user = _userCollection.Find(x => x.Email == email).FirstOrDefault();
-            if(user != null && SaltEncryption.ValidatePassword(password, user.Password)) return user;
+            var result = _userCollection.Find(x => x.Email == email).FirstOrDefault();
+
+            var user = new Domain.User
+            {
+                Id = result.Id,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Email = result.Email,
+                Created = DateTime.Now
+            };
+
+            if(result != null && SaltEncryption.ValidatePassword(password, result.Password)) return user;
             return null;
         }
     }

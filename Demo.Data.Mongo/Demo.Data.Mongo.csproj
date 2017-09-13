@@ -5,7 +5,4 @@
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.4.4" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Demo.Model\Demo.Model.csproj" />
-  </ItemGroup>
 </Project>

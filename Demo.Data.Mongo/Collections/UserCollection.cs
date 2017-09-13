@@ -1,5 +1,4 @@
 using Demo.Data.Mongo.Models;
-using Demo.Model;
 
 namespace Demo.Data.Mongo.Collections
 {

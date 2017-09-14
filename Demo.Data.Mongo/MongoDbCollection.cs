@@ -8,15 +8,14 @@ namespace Demo.Data.Mongo
 {
     public abstract class MongoDbCollection<TEntityType> where TEntityType : class 
     {
-        private readonly IMongoDbContext _context;
-
+        private IMongoDatabase _db;
         protected string CollectionName { get; }
-        protected IMongoCollection<TEntityType> Collection => _context.Db.GetCollection<TEntityType>(CollectionName);
+        protected IMongoCollection<TEntityType> Collection => _db.GetCollection<TEntityType>(CollectionName);
 
-        protected MongoDbCollection(string name, string connectionString)
+        protected MongoDbCollection(string name, IMongoDatabase db)
         {
             CollectionName = name;
-            _context = new MongoDbContext(connectionString);
+            _db = db;
         }
 
         public IEnumerable<TEntityType> All()

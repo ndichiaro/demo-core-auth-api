@@ -1,8 +1,9 @@
+using Demo.Data.Mongo.Models;
 using MongoDB.Driver;
 
 namespace Demo.Data.Mongo
 {
-    public class MongoDbContext : IMongoDbContext
+    public class MongoDbContext
     {
         private static IMongoClient _client;
         private readonly MongoUrl _url;
@@ -14,5 +15,7 @@ namespace Demo.Data.Mongo
             _url = new MongoUrl(connectionString);
             _client = new MongoClient(_url.Url);
         }
+
+        public MongoDbCollection<User> User { get; set; }
     }
 }

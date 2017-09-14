@@ -4,6 +4,7 @@ using Demo.Data.Mongo.Collections;
 using Demo.Data.Mongo.Models;
 using Domain = Demo.Model;
 using Demo.Authentication.Security;
+using Demo.Data.Mongo;
 
 namespace Demo.Authentication
 {
@@ -11,9 +12,9 @@ namespace Demo.Authentication
     {
         private UserCollection _userCollection;
         
-        public UserManager(string connectionString)
+        public UserManager(MongoDbContext context)
         {
-            _userCollection = new UserCollection(connectionString);
+            _userCollection = new UserCollection(context);
         }
 
         public Domain.User CreateUser(string firstname, string lastname, string email, string password)

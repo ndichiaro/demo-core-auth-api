@@ -15,7 +15,5 @@ namespace Demo.Data.Mongo
             _url = new MongoUrl(connectionString);
             _client = new MongoClient(_url.Url);
         }
-
-        public MongoDbCollection<User> User { get; set; }
     }
 }

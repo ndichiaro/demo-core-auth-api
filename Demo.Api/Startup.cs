@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Demo.Api.Settings;
 using Demo.Authentication;
 using Demo.Data.Mongo;
+using Demo.Data.Mongo.Collections;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -45,6 +46,7 @@ namespace Demo.Api
                     });
 
             services.AddSingleton<MongoDbContext>(s => new MongoDbContext(Configuration.GetConnectionString("DemoDatabase")));
+            services.AddScoped<IUserCollection, UserCollection>();
             services.AddScoped<IUserManager, UserManager>();        
             services.AddMvc();
         }

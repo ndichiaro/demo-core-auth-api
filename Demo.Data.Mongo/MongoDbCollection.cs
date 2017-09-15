@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Demo.Data.Mongo
@@ -12,10 +11,10 @@ namespace Demo.Data.Mongo
         protected string CollectionName { get; }
         protected IMongoCollection<TEntityType> Collection => _db.GetCollection<TEntityType>(CollectionName);
 
-        protected MongoDbCollection(string name, IMongoDatabase db)
+        protected MongoDbCollection(string name, MongoDbContext context)
         {
             CollectionName = name;
-            _db = db;
+            _db = context.Db;
         }
 
         public IEnumerable<TEntityType> All()

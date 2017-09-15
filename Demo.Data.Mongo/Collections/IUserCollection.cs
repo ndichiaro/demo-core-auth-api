@@ -5,10 +5,8 @@ using Demo.Data.Mongo.Models;
 
 namespace Demo.Data.Mongo.Collections
 {
-    public interface IUserCollection
+    public interface IUserCollection : IMongoDbCollection<User> 
     {
-        IEnumerable<User> All();
-        User Add(User user);
-        IEnumerable<User> Find(Expression<Func<User, bool>> expression);
+
     }
 }
